@@ -1,0 +1,19 @@
+supply-chain-finance.feima.ai {
+    root * /var/www/supply-chain-finance
+    file_server
+    encode gzip
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    @html {
+        file {path}.html
+    }
+    rewrite @html {path}.html
+
+    try_files {path} {path}/index.html {path}.html
+}
