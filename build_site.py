@@ -40,6 +40,10 @@ CATEGORY_LABELS = {
 
 GA_MEASUREMENT_ID = ""
 
+# Base path for GitHub Pages (e.g., "/supply-chain-finance" for ghoulvspol.github.io/supply-chain-finance/)
+# Set to "" for custom domain deployments
+BASE_PATH = "/supply-chain-finance"
+
 # ── Step 1: Collect all markdown files ────────────────────────────────────────
 
 def collect_files():
@@ -82,9 +86,9 @@ def build_link_map(files):
         stem = f["stem"]
         cat  = f["category"]
         if cat == "home":
-            url = "/index.html"
+            url = f"{BASE_PATH}/index.html"
         else:
-            url = f"/{cat}/{stem}.html"
+            url = f"{BASE_PATH}/{cat}/{stem}.html"
         lmap[stem] = url
         for alias in f["fm"].get("aliases", []):
             if alias not in lmap:
@@ -1103,7 +1107,7 @@ def build_sidebar_html(files, current_stem=""):
         groups[cat].sort(key=lambda x: x["stem"])
 
     home_active = " active" if current_stem == "欢迎" else ""
-    html = f'<a href="/index.html" class="nav-link nav-home{home_active}">🏛 首页</a>\n'
+    html = f'<a href="{BASE_PATH}/index.html" class="nav-link nav-home{home_active}">🏛 首页</a>\n'
 
     order = [
         ("index-pages",   "索引"),
@@ -1122,7 +1126,7 @@ def build_sidebar_html(files, current_stem=""):
         html += f'  <div class="nav-group-title"><span class="caret"></span>{label}<span class="badge">{len(group_items)}</span></div>\n'
         html += f'  <div class="nav-group-items">\n'
         for f in group_items:
-            url = f"/{cat}/{f['stem']}.html"
+            url = f"{BASE_PATH}/{cat}/{f['stem']}.html"
             active = " active" if f["stem"] == current_stem else ""
             display = f["stem"]
             html += f'    <a href="{url}" class="nav-link{active}" title="{display}">{display}</a>\n'
@@ -1131,7 +1135,7 @@ def build_sidebar_html(files, current_stem=""):
     has_changelog = any(f["stem"] == "更新日志" and f["category"] == "index-pages" for f in files)
     if has_changelog:
         changelog_active = " active" if current_stem == "更新日志" else ""
-        html += f'<a href="/index-pages/更新日志.html" class="nav-link nav-changelog{changelog_active}">📋 更新日志</a>\n'
+        html += f'<a href="{BASE_PATH}/index-pages/更新日志.html" class="nav-link nav-changelog{changelog_active}">📋 更新日志</a>\n'
 
     return html
 
@@ -1167,11 +1171,11 @@ def wrap_page(title, body_html, files, current_stem="", right_html="", wide=Fals
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} - 供应链金融知识图谱</title>
-<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-180.png">
-<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="{BASE_PATH}/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="{BASE_PATH}/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="{BASE_PATH}/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="{BASE_PATH}/assets/favicon-180.png">
+<link rel="shortcut icon" href="{BASE_PATH}/assets/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1181,7 +1185,7 @@ def wrap_page(title, body_html, files, current_stem="", right_html="", wide=Fals
 <body>
 <button class="hamburger" aria-label="菜单" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
 <aside class="sidebar">
-  <div class="sidebar-header"><a href="/index.html" class="logo">供应链金融知识图谱</a></div>
+  <div class="sidebar-header"><a href="{BASE_PATH}/index.html" class="logo">供应链金融知识图谱</a></div>
   <div class="sidebar-nav">
     {sidebar}
   </div>
@@ -1271,47 +1275,47 @@ def build_homepage(files, link_map, ref_counts):
 </section>
 
 <div class="stats-row">
-  <a href="/index-pages/核心概念索引.html" class="stat-item"><div class="stat-num">{len(concept_files)}</div><div class="stat-label">核心概念</div></a>
-  <a href="/index-pages/参与主体索引.html" class="stat-item"><div class="stat-num">{len(participant_files)}</div><div class="stat-label">参与主体</div></a>
-  <a href="/index-pages/业务模式索引.html" class="stat-item"><div class="stat-num">{len(model_files)}</div><div class="stat-label">业务模式</div></a>
-  <a href="/index-pages/风控体系索引.html" class="stat-item"><div class="stat-num">{len(risk_files)}</div><div class="stat-label">风控体系</div></a>
-  <a href="/index-pages/政策法规索引.html" class="stat-item"><div class="stat-num">{len(policy_files)}</div><div class="stat-label">政策法规</div></a>
-  <a href="/index-pages/典型案例索引.html" class="stat-item"><div class="stat-num">{len(case_files)}</div><div class="stat-label">典型案例</div></a>
+  <a href="{BASE_PATH}/index-pages/核心概念索引.html" class="stat-item"><div class="stat-num">{len(concept_files)}</div><div class="stat-label">核心概念</div></a>
+  <a href="{BASE_PATH}/index-pages/参与主体索引.html" class="stat-item"><div class="stat-num">{len(participant_files)}</div><div class="stat-label">参与主体</div></a>
+  <a href="{BASE_PATH}/index-pages/业务模式索引.html" class="stat-item"><div class="stat-num">{len(model_files)}</div><div class="stat-label">业务模式</div></a>
+  <a href="{BASE_PATH}/index-pages/风控体系索引.html" class="stat-item"><div class="stat-num">{len(risk_files)}</div><div class="stat-label">风控体系</div></a>
+  <a href="{BASE_PATH}/index-pages/政策法规索引.html" class="stat-item"><div class="stat-num">{len(policy_files)}</div><div class="stat-label">政策法规</div></a>
+  <a href="{BASE_PATH}/index-pages/典型案例索引.html" class="stat-item"><div class="stat-num">{len(case_files)}</div><div class="stat-label">典型案例</div></a>
 </div>
 
 <div class="main-inner">
 <div class="nav-cards">
-  <a href="/index-pages/核心概念索引.html" class="nav-card">
+  <a href="{BASE_PATH}/index-pages/核心概念索引.html" class="nav-card">
     <span class="nav-card-icon">💡</span>
     <div class="nav-card-title">核心概念</div>
     <div class="nav-card-sub">{len(concept_files)} 个基础术语与核心工具</div>
     <span class="nav-card-arrow">{arrow}</span>
   </a>
-  <a href="/index-pages/参与主体索引.html" class="nav-card">
+  <a href="{BASE_PATH}/index-pages/参与主体索引.html" class="nav-card">
     <span class="nav-card-icon">🏢</span>
     <div class="nav-card-title">参与主体</div>
     <div class="nav-card-sub">{len(participant_files)} 个生态关键角色</div>
     <span class="nav-card-arrow">{arrow}</span>
   </a>
-  <a href="/index-pages/业务模式索引.html" class="nav-card">
+  <a href="{BASE_PATH}/index-pages/业务模式索引.html" class="nav-card">
     <span class="nav-card-icon">📊</span>
     <div class="nav-card-title">业务模式</div>
     <div class="nav-card-sub">{len(model_files)} 种核心业务模式</div>
     <span class="nav-card-arrow">{arrow}</span>
   </a>
-  <a href="/index-pages/风控体系索引.html" class="nav-card">
+  <a href="{BASE_PATH}/index-pages/风控体系索引.html" class="nav-card">
     <span class="nav-card-icon">🛡</span>
     <div class="nav-card-title">风控体系</div>
     <div class="nav-card-sub">{len(risk_files)} 个风控维度</div>
     <span class="nav-card-arrow">{arrow}</span>
   </a>
-  <a href="/index-pages/政策法规索引.html" class="nav-card">
+  <a href="{BASE_PATH}/index-pages/政策法规索引.html" class="nav-card">
     <span class="nav-card-icon">📜</span>
     <div class="nav-card-title">政策法规</div>
     <div class="nav-card-sub">{len(policy_files)} 部核心法规</div>
     <span class="nav-card-arrow">{arrow}</span>
   </a>
-  <a href="/index-pages/典型案例索引.html" class="nav-card">
+  <a href="{BASE_PATH}/index-pages/典型案例索引.html" class="nav-card">
     <span class="nav-card-icon">🏭</span>
     <div class="nav-card-title">典型案例</div>
     <div class="nav-card-sub">{len(case_files)} 个行业实践案例</div>
